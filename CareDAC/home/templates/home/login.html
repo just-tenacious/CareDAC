@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | CareDAC{% endblock %}
+
+{% block content %}
+<style>
+    /* Full-page height container to center the card */
+    .login-container {
+        height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<div class="login-container">
+    <div class="card p-4 shadow-sm login-card" style="width: 400px; transition: transform 0.2s, box-shadow 0.2s;">
+        <div class="text-center mb-4">
+            <h2>Login to CareDAC</h2>
+        </div>
+        <form method="POST" action="{% url 'home' %}"> <!-- Redirect to home on login -->
+            {% csrf_token %}
+            <!-- Email -->
+            <div class="mb-3 position-relative">
+                <input type="email" class="form-control ps-5" id="email" name="email" placeholder="Email" required>
+                <i class="bi bi-envelope-fill position-absolute" style="top:50%; left:15px; transform: translateY(-50%); color:#6c757d;"></i>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3 position-relative">
+                <input type="password" class="form-control ps-5" id="password" name="password" placeholder="Password" required>
+                <i class="bi bi-lock-fill position-absolute" style="top:50%; left:15px; transform: translateY(-50%); color:#6c757d;"></i>
+            </div>
+
+            <!-- Forgot Password -->
+            <div class="mb-3 text-end">
+                <a href="{% url 'forgot_password' %}" class="text-decoration-none">Forgot password?</a>
+            </div>
+
+            <!-- Login Button -->
+            <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary">Login</button>
+            </div>
+
+            <!-- Register Link -->
+            <div class="text-center">
+                Don't have an account? <a href="{% url 'register' %}" class="text-decoration-none">Register</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
