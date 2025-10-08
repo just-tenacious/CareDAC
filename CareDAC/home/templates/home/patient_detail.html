@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}Member Details | CareDAC{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #f5f7fa;
+  }
+  .form-container {
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border:none;
+  }
+  .form-card {
+    width: 600px;
+    padding: 40px 35px;
+    background-color: #f5f7fa;
+    border:none;
+  }
+  .form-card h2 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  .form-card p {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+  }
+  hr {
+    border-top: 1px solidrgba(222, 226, 230, 0.73);
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .row {
+    display: flex;
+    gap: 10px;
+  }
+  .row .form-group {
+    flex: 1;
+  }
+  .location-option {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px 10px;
+    transition: background-color 0.2s;
+    margin-top: 0; /* reduce space before location */
+  }
+  .location-option:hover {
+    background-color: #e9ecef;
+  }
+  .location-option svg {
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+  }
+</style>
+
+<div class="form-container">
+  <div class="card form-card">
+    <div class="text-left mb-3">
+      <h2>Enter Member Details</h2>
+      <p>Need to add perfect details</p>
+      <hr />
+    </div>
+
+    <form action="{% url 'home' %}" method="post">
+      {% csrf_token %}
+
+      <!-- Location -->
+      <div class="form-group">
+        <label class="m-2 mt-0">Location</label><br>
+        <div class="location-option" onclick="document.getElementById('current_location').checked = true;">
+          <input type="radio" name="address_type" id="current_location" value="Current Location" style="display:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+            <path d="M12.166 8.94c.487 1.078.835 2.142.96 2.66.116.481-.147.993-.63 1.09-.483.096-1.02-.2-1.32-.72-.302-.52-.6-1.238-.886-1.94-.284-.698-.556-1.41-.79-2.07-.238-.67-.445-1.28-.605-1.83C9.33 7.5 10.75 8 12.166 8.94z"/>
+            <path d="M8 0C5.25 0 3 2.25 3 5c0 3.2 3.19 7.91 4.16 9.58a1 1 0 0 0 1.68 0C9.81 12.91 13 8.2 13 5c0-2.75-2.25-5-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+          </svg>
+          <span>Use my current location</span>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-group">
+        <label for="address1" class="m-2">Address Line 1</label>
+        <input type="text" class="form-control" id="address1" name="address1" placeholder="Address line 1">
+      </div>
+      <div class="form-group">
+        <label for="address2" class="m-2">Address Line 2</label>
+        <input type="text" class="form-control" id="address2" name="address2" placeholder="Address line 2">
+      </div>
+
+      <!-- Country & State side by side -->
+      <div class="row">
+        <div class="form-group">
+          <label for="country" class="m-2">Country</label>
+          <select class="form-control" id="country" name="country">
+            <option value="">Select Country</option>
+            <option value="India">India</option>
+            <option value="Australia">Australia</option>
+            <option value="USA">USA</option>
+            <option value="UK">UK</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="state" class="m-2">State</label>
+          <select class="form-control" id="state" name="state">
+            <option value="">Select State</option>
+            <option value="Maharashtra">Maharashtra</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="New South Wales">New South Wales</option>
+            <option value="California">California</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- City & Pin side by side -->
+      <div class="row">
+        <div class="form-group">
+          <label for="city" class="m-2">City</label>
+          <input type="text" class="form-control" id="city" name="city" placeholder="City">
+        </div>
+        <div class="form-group">
+          <label for="pincode" class="m-2">Pin Code</label>
+          <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pin code">
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 rounded-pill mt-3">Save</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

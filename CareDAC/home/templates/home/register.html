@@ -69,7 +69,7 @@
             <p>Welcome to CareDAC</p>
         </div>
 
-        <form method="POST" action="{% url 'login' %}">
+        <form method="POST" action="{% url 'registered_for' %}">
             {% csrf_token %}
 
             <input type="text" class="form-control" name="fullname" placeholder="Full Name" required>

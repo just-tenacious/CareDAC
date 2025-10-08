@@ -17,3 +17,18 @@ def otp_view(request):
 
 def reset_password(request):
     return render(request, 'home/reset_password.html')
+
+def registered_for(request):
+    return render(request, 'home/registeredFor.html')
+
+def register_info(request):
+    return render(request, 'home/registerInfo.html')
+
+def service_needed(request):
+    return render(request, 'home/serviceNeeded.html')
+
+def member_detail(request):
+    return render(request, 'home/memberDetail.html')
+
+def patient_detail(request):
+    return render(request, 'home/patient_detail.html')

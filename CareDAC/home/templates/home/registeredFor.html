@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Who Needs Care? | CareDAC{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f5f7fa;
+    }
+    .register-container {
+        min-height: 90vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .register-card {
+        width: 500px;
+        padding: 40px 35px;
+        background-color: #f5f7fa;
+        border:none;
+    }
+    .register-card h2 {
+        font-weight: 600;
+        color:black;
+        margin-bottom: 5px;
+    }
+    .register-card p,hr{
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-bottom: 25px;
+    }
+</style>
+
+<div class="register-container">
+    <div class="card register-card">
+        <div class="text-center mb-4">
+            <h2>Who need care?</h2>
+            <p>Enter patient details</p>
+            <hr/>
+        </div>
+        <div class="text-center mb-4 row">
+    <button class="btn btn-outline-dark mb-2" onclick="location.href='{% url 'register_info' %}'">My Self</button>
+    <button class="btn btn-outline-dark mb-2" onclick="location.href='{% url 'register_info' %}'">My Child</button>
+    <button class="btn btn-outline-dark mb-2" onclick="location.href='{% url 'register_info' %}'">My Partner</button>
+    <button class="btn btn-outline-dark mb-2" onclick="location.href='{% url 'register_info' %}'">My Client</button>
+    <button class="btn btn-outline-dark mb-2" onclick="location.href='{% url 'register_info' %}'">Other</button>
+</div>
+
+    </div>
+</div>
+{% endblock %}

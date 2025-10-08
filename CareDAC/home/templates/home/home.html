@@ -2,8 +2,16 @@
 
 {% block title %}Home | CareDAC{% endblock %}
 
+{% block extra_css %}
+<style>
+  body {
+    background: none !important; /* removes background only for home */
+  }
+</style>
+{% endblock %}
+
 {% block navbar %}
-    {% include 'navbar.html' %}
+  {% include 'navbar.html' %}
 {% endblock %}
 
 {% block content %}

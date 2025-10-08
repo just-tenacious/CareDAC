@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}Service Needed | CareDAC{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #f5f7fa;
+  }
+  .register-container {
+    min-height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .register-card {
+    width: 500px;
+    padding: 40px 35px;
+    background-color: #f5f7fa;
+    border: none;
+  }
+  .register-card h2 {
+    font-weight: 600;
+    color: black;
+    margin-bottom: 5px;
+  }
+  .register-card p,
+  hr {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 25px;
+  }
+</style>
+
+<div class="register-container">
+  <div class="card register-card">
+    <div class="text-left mb-2">
+      <h2>Service I Need</h2>
+      <p>Select the services you require</p>
+      <hr />
+    </div>
+
+    <form action="{% url 'member_detail' %}" method="post">
+      {% csrf_token %}
+      <div class="mb-3">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="personalCare" value="Personal Care">
+          <label class="form-check-label" for="personalCare">Personal Care</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="domesticAssistance" value="Domestic Assistance">
+          <label class="form-check-label" for="domesticAssistance">Domestic Assistance</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="socialSupport" value="Social Support & Community Participation">
+          <label class="form-check-label" for="socialSupport">Social Support & Community Participation</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="specialistCare" value="Specialist Care">
+          <label class="form-check-label" for="specialistCare">Specialist Care</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="transport" value="Out and About Transport">
+          <label class="form-check-label" for="transport">Out and About Transport</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="reliefCare" value="Relief/Respite Care">
+          <label class="form-check-label" for="reliefCare">Relief/Respite Care</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="coaching" value="Coaching & Counselling">
+          <label class="form-check-label" for="coaching">Coaching & Counselling</label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" name="services" id="disabilityProducts" value="Disability Products">
+          <label class="form-check-label" for="disabilityProducts">Disability Products</label>
+        </div>
+      </div>
+
+      <div class="text-left mb-4 row">
+        <button type="submit" class="btn btn-primary w-100 rounded-pill">Next</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
