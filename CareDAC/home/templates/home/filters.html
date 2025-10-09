@@ -1,0 +1,258 @@
+<div class="filters-container p-3">
+
+  <!-- Dropdowns -->
+  <div class="mb-3">
+    <label class="form-label">Showing results for</label>
+    <select class="form-select mb-2">
+      <option>One-time sitter</option>
+      <option>Full-time sitter</option>
+      <option>Regular sitter</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Where do you need care</label>
+    <select class="form-select">
+      <option>Home</option>
+      <option>Center</option>
+    </select>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-3 mb-2">
+  <h5 class="mb-0">Filters</h5>
+  <button type="button" class="btn btn-sm btn-dark rounded-pill px-3 py-1" id="clearFiltersBtn" title="Clear all selected filters">
+    Clear Filters
+  </button>
+</div>
+
+  <form>
+
+    <!-- Payrate Slider -->
+    <div class="mb-3">
+      <label class="form-label">Payrate: <span id="payrateValue">$20/hr</span></label>
+      <input type="range" class="custom-range" min="15" max="25" step="1" value="20" id="payrateSlider">
+    </div>
+
+    <!-- Number of children -->
+    <div class="mb-3">
+      <label class="form-label">Number of children</label>
+      <div class="d-flex align-items-center gap-2">
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="minusChild">−</button>
+        <span id="numChild" class="fw-bold">1</span> child
+        <button type="button" class="btn btn-outline-secondary btn-sm" id="plusChild">+</button>
+      </div>
+    </div>
+
+    <!-- Child Age Ranges -->
+    <div class="mb-3">
+      <label class="form-label">Child age ranges</label>
+      <div class="d-flex flex-wrap gap-2 mt-1">
+        <button type="button" class="btn age-btn btn-sm rounded-pill">0-11 months</button>
+        <button type="button" class="btn age-btn btn-sm rounded-pill">1-3 years</button>
+        <button type="button" class="btn age-btn btn-sm rounded-pill">4-5 years</button>
+        <button type="button" class="btn age-btn btn-sm rounded-pill">10+ years</button>
+      </div>
+    </div>
+
+    <!-- Rating -->
+    <div class="mb-3">
+      <label class="form-label">Rating</label>
+      <div class="d-flex gap-1 mt-1">
+        <button type="button" class="btn rating-btn btn-sm">★ 0</button>
+        <button type="button" class="btn rating-btn btn-sm">★ 1</button>
+        <button type="button" class="btn rating-btn btn-sm">★ 2</button>
+        <button type="button" class="btn rating-btn btn-sm">★ 3</button>
+        <button type="button" class="btn rating-btn btn-sm">★ 4</button>
+        <button type="button" class="btn rating-btn btn-sm">★ 5</button>
+      </div>
+    </div>
+
+    <!-- Services -->
+    <div class="mb-3">
+      <label class="form-label">Select services</label>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="personalCare"><label class="form-check-label" for="personalCare">Personal Care</label></div>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="domesticAssistance"><label class="form-check-label" for="domesticAssistance">Domestic Assistance</label></div>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="socialSupport"><label class="form-check-label" for="socialSupport">Social Support & Community Participation</label></div>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="specialistCare"><label class="form-check-label" for="specialistCare">Specialist Care</label></div>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="transport"><label class="form-check-label" for="transport">Out and About Transport</label></div>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="reliefCare"><label class="form-check-label" for="reliefCare">Relief/Respite Care</label></div>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="coaching"><label class="form-check-label" for="coaching">Coaching & Counselling</label></div>
+      <div class="form-check"><input class="form-check-input" type="checkbox" id="disabilityProducts"><label class="form-check-label" for="disabilityProducts">Disability Products</label></div>
+    </div>
+
+    <!-- Date Range -->
+    <div class="mb-3">
+      <label class="form-label">Date range</label>
+      <div class="d-flex gap-2 mt-1">
+        <div class="d-flex flex-column">
+          <label class="form-label mb-0 small">Start</label>
+          <input type="date" class="form-control form-control-sm">
+        </div>
+        <div class="d-flex flex-column">
+          <label class="form-label mb-0 small">End</label>
+          <input type="date" class="form-control form-control-sm">
+        </div>
+      </div>
+    </div>
+
+    <!-- Professional Skills -->
+    <div class="mb-3">
+      <label class="form-label">Professional skills</label>
+      <div class="d-flex flex-wrap gap-2 mt-1">
+        <button type="button" class="btn skill-btn btn-sm rounded-pill">CR Training</button>
+        <button type="button" class="btn skill-btn btn-sm rounded-pill">First Aid Training</button>
+        <button type="button" class="btn skill-btn btn-sm rounded-pill">Special Need Care</button>
+      </div>
+    </div>
+
+    <!-- Preferences -->
+    <div class="mb-3">
+      <label class="form-label">Preferences</label>
+      <div class="d-flex flex-wrap gap-2 mt-1">
+        <button type="button" class="btn pref-btn btn-sm rounded-pill">Comfort with pets</button>
+        <button type="button" class="btn pref-btn btn-sm rounded-pill">Has own transport</button>
+        <button type="button" class="btn pref-btn btn-sm rounded-pill">Non smoker</button>
+      </div>
+    </div>
+
+    <!-- Languages Known -->
+    <div class="mb-3">
+      <label class="form-label">Languages Known</label>
+      <div class="d-flex flex-wrap gap-2 mt-1">
+        <button type="button" class="btn lang-btn btn-sm rounded-pill">Hindi</button>
+        <button type="button" class="btn lang-btn btn-sm rounded-pill">English</button>
+        <button type="button" class="btn lang-btn btn-sm rounded-pill">French</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<!-- Styles -->
+<style>
+  .filters-container .btn {
+    background-color: #f8f9fa;
+    color: #000;
+    border: 1px solid #ccc;
+    transition: all 0.2s;
+  }
+  .filters-container .btn:hover {
+    border-color: #000;
+  }
+  .filters-container .btn.selected {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+  }
+
+  .rating-btn {
+    color: #ffc107;
+    font-weight: 600;
+  }
+
+  .form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+  }
+
+  /* Custom payrate slider styles */
+  .custom-range {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(to right, #0d6efd 50%, #dee2e6 50%);
+    transition: background 0.3s ease;
+    outline: none;
+  }
+
+  .custom-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #0d6efd;
+    cursor: pointer;
+    margin-top: -4px;
+    border: none;
+  }
+
+  .custom-range::-moz-range-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #0d6efd;
+    cursor: pointer;
+    border: none;
+  }
+
+  .custom-range::-moz-range-track {
+    background: transparent;
+    height: 8px;
+  }
+
+  .custom-range::-ms-thumb {
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: #0d6efd;
+    cursor: pointer;
+    border: none;
+  }
+
+  .custom-range::-ms-track {
+    background: transparent;
+    height: 8px;
+    border-color: transparent;
+    color: transparent;
+  }
+</style>
+
+<!-- JavaScript -->
+<script>
+  // Payrate slider color update
+  const slider = document.getElementById('payrateSlider');
+  const payrateValue = document.getElementById('payrateValue');
+
+  function updateSliderColor(slider) {
+    const min = parseInt(slider.min);
+    const max = parseInt(slider.max);
+    const val = parseInt(slider.value);
+    const percentage = ((val - min) * 100) / (max - min);
+    slider.style.background = `linear-gradient(to right, #0d6efd 0%, #0d6efd ${percentage}%, #dee2e6 ${percentage}%, #dee2e6 100%)`;
+  }
+
+  slider.addEventListener('input', () => {
+    payrateValue.innerText = `$${slider.value}/hr`;
+    updateSliderColor(slider);
+  });
+
+  // Initial setup
+  updateSliderColor(slider);
+  payrateValue.innerText = `$${slider.value}/hr`;
+
+  // Number of children
+  let numChild = 1;
+  const numChildEl = document.getElementById('numChild');
+  document.getElementById('minusChild').addEventListener('click', () => {
+    if(numChild > 0) numChild--;
+    numChildEl.innerText = numChild;
+  });
+  document.getElementById('plusChild').addEventListener('click', () => {
+    numChild++;
+    numChildEl.innerText = numChild;
+  });
+
+  // Toggle selected state
+  const toggleButtons = (selector) => {
+    document.querySelectorAll(selector).forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('selected');
+      });
+    });
+  }
+  toggleButtons('.age-btn');
+  toggleButtons('.skill-btn');
+  toggleButtons('.pref-btn');
+  toggleButtons('.lang-btn');
+</script>

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Payments | CareDAC{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background: none !important;
+  }
+</style>
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+  <h1 class="mb-4">Payments</h1>
+  <p>Manage your bills, invoices, and payment history here.</p>
+</div>
+{% endblock %}

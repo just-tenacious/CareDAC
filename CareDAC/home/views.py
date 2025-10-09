@@ -32,3 +32,9 @@ def member_detail(request):
 
 def patient_detail(request):
     return render(request, 'home/patient_detail.html')
+
+def appointment(request):
+    return render(request, 'home/appointment.html')
+
+def payment(request):
+    return render(request, 'home/payments.html')
