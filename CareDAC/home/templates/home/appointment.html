@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Appointment | CareDAC{% endblock %}
 
@@ -6,6 +7,38 @@
 <style>
   body {
     background: none !important;
+  }
+  .profile-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid orange;
+  }
+  .booking-card {
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border-radius: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .booking-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .action-card {
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    width: 60px;
+    padding: 8px 0;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .action-card i {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 4px;
   }
 </style>
 {% endblock %}
@@ -16,7 +49,160 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h1 class="mb-4">Your Appointments</h1>
-  <p>Here you can view and manage your upcoming and past appointments.</p>
+  <div class="appointments-container">
+
+    <!-- Current Booking -->
+    <h5 class="mb-3">Current Booking</h5>
+    <div class="booking-card p-3 mb-4"
+         onclick="window.location.href='{% url 'booking_history' %}'">
+      <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="Paula Mora">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">Paula Mora</span>
+            <small class="text-muted">Oct 17, 2023 1:55 am</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Previous Bookings -->
+    <h5 class="mb-3">Previous Bookings</h5>
+    <div class="d-flex flex-column gap-3">
+
+      <!-- Record 1 -->
+      <div class="booking-card p-3 d-flex justify-content-between align-items-center"
+           onclick="window.location.href='{% url 'booking_history' %}'">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="Stephanie Sharkey">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">Stephanie Sharkey</span>
+            <small class="text-muted">Oct 16, 2023 10:00 am</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+
+      <!-- Record 2 -->
+      <div class="booking-card p-3 d-flex justify-content-between align-items-center"
+           onclick="window.location.href='{% url 'booking_history' %}'">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="Alex Buckmaster">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">Alex Buckmaster</span>
+            <small class="text-muted">Oct 15, 2023 3:20 pm</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+
+      <!-- Record 3 -->
+      <div class="booking-card p-3 d-flex justify-content-between align-items-center"
+           onclick="window.location.href='{% url 'booking_history' %}'">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="John Doe">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">John Doe</span>
+            <small class="text-muted">Oct 14, 2023 11:30 am</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+
+      <!-- Record 4 -->
+      <div class="booking-card p-3 d-flex justify-content-between align-items-center"
+           onclick="window.location.href='{% url 'booking_history' %}'">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="Emma Watson">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">Emma Watson</span>
+            <small class="text-muted">Oct 13, 2023 9:15 am</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+
+      <!-- Record 5 -->
+      <div class="booking-card p-3 d-flex justify-content-between align-items-center"
+           onclick="window.location.href='{% url 'booking_history' %}'">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="Chris Evans">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">Chris Evans</span>
+            <small class="text-muted">Oct 12, 2023 2:45 pm</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+
+      <!-- Record 6 -->
+      <div class="booking-card p-3 d-flex justify-content-between align-items-center"
+           onclick="window.location.href='{% url 'booking_history' %}'">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="Scarlett Johansson">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">Scarlett Johansson</span>
+            <small class="text-muted">Oct 11, 2023 4:10 pm</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+
+      <!-- Record 7 -->
+      <div class="booking-card p-3 d-flex justify-content-between align-items-center"
+           onclick="window.location.href='{% url 'booking_history' %}'">
+        <div class="d-flex align-items-center gap-3">
+          <img src="{% static 'home/images/user.jpg' %}" class="profile-img" alt="Robert Downey">
+          <div class="d-flex flex-column">
+            <span class="fw-semibold">Robert Downey</span>
+            <small class="text-muted">Oct 10, 2023 5:30 pm</small>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <div class="btn btn-light action-card d-flex flex-column align-items-center"
+               onclick="event.stopPropagation();">
+            <i class="bi bi-telephone-fill"></i> Call
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>
 {% endblock %}

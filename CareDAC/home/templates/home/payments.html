@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Payments | CareDAC{% endblock %}
 
@@ -6,6 +7,65 @@
 <style>
   body {
     background: none !important;
+  }
+
+  .payment-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .payment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ffc107;
+    margin-right: 15px;
+  }
+
+  .payment-details {
+    flex-grow: 1;
+  }
+
+  .payment-name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+
+  .payment-date {
+    font-size: 14px;
+    color: #6c757d;
+  }
+
+  .payment-amount-card {
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    padding: 10px 20px;
+    text-align: center;
+    font-weight: 700;
+    color: #198754;
+    font-size: 17px;
+    min-width: 120px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .payment-amount-card:hover {
+    background: #e9ecef;
   }
 </style>
 {% endblock %}
@@ -16,7 +76,153 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h1 class="mb-4">Payments</h1>
-  <p>Manage your bills, invoices, and payment history here.</p>
+  <h3 class="mb-4 fw-bold">Payments</h3>
+
+  <!-- Static Payment Cards -->
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Kimberly Mastrangelo</div>
+      <div class="payment-date">Oct 29, 2023 • 7:38 am</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Kimberly Mastrangelo" data-amount="$3,165.98" data-date="Oct 29, 2023 • 7:38 am">
+      $3,165.98
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Judith Rodriguez</div>
+      <div class="payment-date">Oct 13, 2023 • 10:36 am</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Judith Rodriguez" data-amount="$1,491.47" data-date="Oct 13, 2023 • 10:36 am">
+      $1,491.47
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Kathy Pacheco</div>
+      <div class="payment-date">Oct 12, 2023 • 10:24 pm</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Kathy Pacheco" data-amount="$9,621.63" data-date="Oct 12, 2023 • 10:24 pm">
+      $9,621.63
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Corina McCoy</div>
+      <div class="payment-date">Oct 22, 2023 • 3:31 pm</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Corina McCoy" data-amount="$6,516.30" data-date="Oct 22, 2023 • 3:31 pm">
+      $6,516.30
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Katie Sims</div>
+      <div class="payment-date">Oct 22, 2023 • 5:35 am</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Katie Sims" data-amount="$3,299.16" data-date="Oct 22, 2023 • 5:35 am">
+      $3,299.16
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Paula Mora</div>
+      <div class="payment-date">Oct 26, 2023 • 2:46 pm</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Paula Mora" data-amount="$953.94" data-date="Oct 26, 2023 • 2:46 pm">
+      $953.94
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Autumn Phillips</div>
+      <div class="payment-date">Oct 14, 2023 • 9:02 pm</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Autumn Phillips" data-amount="$9,419.73" data-date="Oct 14, 2023 • 9:02 pm">
+      $9,419.73
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Stephanie Nicol</div>
+      <div class="payment-date">Nov 8, 2023 • 6:46 am</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Stephanie Nicol" data-amount="$7,293.96" data-date="Nov 8, 2023 • 6:46 am">
+      $7,293.96
+    </div>
+  </div>
+
+  <div class="payment-card">
+    <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="profile-img">
+    <div class="payment-details">
+      <div class="payment-name">Kurt Bates</div>
+      <div class="payment-date">Oct 23, 2023 • 11:44 am</div>
+    </div>
+    <div class="payment-amount-card" data-bs-toggle="modal" data-bs-target="#paymentModal"
+         data-person="Kurt Bates" data-amount="$4,584.43" data-date="Oct 23, 2023 • 11:44 am">
+      $4,584.43
+    </div>
+  </div>
 </div>
+
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-light">
+        <h5 class="modal-title fw-bold" id="paymentModalLabel">Payment Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center mb-3">
+          <img src="{% static 'home/images/user.jpg' %}" alt="Profile" class="rounded-circle" width="80" height="80">
+        </div>
+        <p><strong>Name:</strong> <span id="modalPerson"></span></p>
+        <p><strong>Amount:</strong> <span id="modalAmount" class="text-success fw-bold"></span></p>
+        <p><strong>Date:</strong> <span id="modalDate"></span></p>
+        <hr>
+        <p class="text-muted small">
+          Payment successfully processed. You can download the invoice or contact support for any issues.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-success">Download Invoice</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const paymentModal = document.getElementById('paymentModal');
+  paymentModal.addEventListener('show.bs.modal', event => {
+    const button = event.relatedTarget;
+    document.getElementById('modalPerson').textContent = button.getAttribute('data-person');
+    document.getElementById('modalAmount').textContent = button.getAttribute('data-amount');
+    document.getElementById('modalDate').textContent = button.getAttribute('data-date');
+  });
+</script>
 {% endblock %}

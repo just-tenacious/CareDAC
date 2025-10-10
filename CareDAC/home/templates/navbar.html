@@ -18,9 +18,9 @@
     <div class="right-pane d-flex align-items-center">
 
       <!-- Nav Links -->
-      <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
-      <a class="nav-link {% if request.resolver_match.url_name == 'appointment' %}active{% endif %}" href="{% url 'appointment' %}">Appointment</a>
-      <a class="nav-link {% if request.resolver_match.url_name == 'payment' %}active{% endif %}" href="{% url 'payment' %}">Payments</a>
+      <a class="nav-link {% if active_nav == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+      <a class="nav-link {% if active_nav == 'appointment' %}active{% endif %}" href="{% url 'appointment' %}">Appointment</a>
+      <a class="nav-link {% if active_nav == 'payment' %}active{% endif %}" href="{% url 'payment' %}">Payments</a>
 
       <!-- Language Dropdown -->
       <div class="dropdown ms-3">
@@ -47,7 +47,7 @@
           <i class="bi bi-person-circle me-1"></i> User
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><a class="dropdown-item" href="#"><i class="bi bi-person me-1"></i> Profile</a></li>
+          <li><a class="dropdown-item" href="{% url 'user_profile' %}"><i class="bi bi-person me-1"></i> Profile</a></li>
           <li><a class="dropdown-item" href="{% url 'reset_password' %}"><i class="bi bi-key me-1"></i> Change Password</a></li>
           <li><a class="dropdown-item text-danger" href="{% url 'login' %}"><i class="bi bi-box-arrow-right me-1"></i> Logout</a></li>
         </ul>

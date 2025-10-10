@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Booking History | CareDAC{% endblock %}
+
+{% block extra_css %}
+<style>
+  body {
+    background: #f8f9fa !important;
+  }
+  .booking-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    padding: 25px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .booking-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+  }
+  .profile-img-lg {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 3px solid orange;
+  }
+  .action-btn {
+    width: 90px;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+  }
+  .action-btn i {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  .section-title {
+    font-weight: 600;
+    margin: 25px 0 10px;
+    color: #343a40;
+  }
+  .note-card {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid orange;
+    margin-bottom: 10px;
+  }
+  .review-box {
+    resize: none;
+  }
+  .info-card {
+    background: #fdfdfd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    margin: 5px;
+  }
+</style>
+{% endblock %}
+
+{% block navbar %}
+  {% include 'navbar.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+
+  <div class="booking-card">
+    
+    <!-- Profile Header -->
+    <div class="d-flex align-items-center justify-content-between flex-wrap mb-4">
+      <div class="d-flex align-items-center gap-3">
+        <img src="{% static 'home/images/user.jpg' %}" class="profile-img-lg" alt="Paula Mora">
+        <div>
+          <h5 class="text-muted mb-1">PART-TIME</h5>
+          <h4 class="fw-semibold mb-0">Paula Mora</h4>
+          <small class="text-success">✔ Background check done</small>
+        </div>
+      </div>
+
+      <div class="d-flex flex-wrap gap-2 mt-3 mt-md-0">
+        <button class="btn btn-outline-primary action-btn">
+          <i class="bi bi-arrow-repeat"></i> Rebook
+        </button>
+        <button class="btn btn-outline-success action-btn">
+          <i class="bi bi-cash-stack"></i> $4,584.43
+        </button>
+      </div>
+    </div>
+
+    <!-- Booking Info -->
+    <div class="row g-2 text-muted mb-4">
+      <div class="col-md-2 info-card"><strong>Booking Date:</strong> Oct 17, 2023</div>
+      <div class="col-md-2 info-card"><strong>Booking Time:</strong> 1:55 am</div>
+      <div class="col-md-3 info-card"><strong>Booked For:</strong> Stephanie Sharkey</div>
+      <div class="col-md-2 info-card"><strong>Age:</strong> 3 Yrs</div>
+      <div class="col-md-2 info-card"><strong>Gender:</strong> Male</div>
+    </div>
+
+    <!-- About Paula -->
+    <div class="p-3 border rounded">
+      <h5 class="section-title">About Paula</h5>
+      <div class="d-flex flex-wrap justify-content-between mb-2 text-muted">
+        <div>Hourly Rate: <strong>$59/hr</strong> | Years Exp: <strong>5</strong></div>
+        <div><strong>33 yrs</strong> | <strong>Female</strong> | Speaks <strong>English</strong></div>
+      </div>
+      <p class="mb-0">
+        I am a 22-year-old graduate student pursuing my Master's in Social Work. I have 5 years of experience
+        caring for children from newborn - 7 years. I am an animal lover, so pets are no problem! I have my own vehicle
+        and am willing to drive children if necessary. I am more than happy to help with housework while watching your
+        children! I am a non-smoker and have received my COVID-19 vaccine!
+      </p>
+    </div>
+
+    <!-- Availability -->
+    <div class="card mt-3 p-3 border-0 shadow-sm rounded-3">
+  <h5 class="section-title mb-2">Connect Paula</h5>
+  <p class="mb-1">
+    <i class="material-icons-outlined me-1 align-middle" style="font-size:18px; color:#000;">event</i>
+    Next Availability Dates <strong>Jan 24th to Feb 9th</strong>
+    <i class="material-icons-outlined me-1 align-middle" style="font-size:18px; color:#000;">schedule</i>
+    Time <strong>9:00 AM to 5:00 PM</strong>
+  </p>
+</div>
+
+    <!-- Message -->
+    <h5 class="section-title">Send Paula a Message</h5>
+    <textarea class="form-control mb-3 review-box" rows="3" placeholder="Write your message here..."></textarea>
+    <button class="btn btn-primary mb-4"><i class="bi bi-send"></i> Send</button>
+
+    <!-- Notes -->
+     <div class="card p-2">
+    <h5 class="section-title">Notes from Paula</h5>
+    <div class="card m-1 p-2">
+      <small>Date:<strong> Nov 1, 2023 3:10 pm</strong></small>
+      <p class="mb-0">Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper...</p>
+    </div>
+    <div class="card m-1 p-2">
+      <small>Date:<strong> Nov 3, 2023 5:45 pm</strong></small>
+      <p class="mb-0">Aliquam erat volutpat. Sed hendrerit nisi vel metus gravida, vitae facilisis sapien dapibus...</p>
+    </div>
+  </div>
+
+    <!-- Review -->
+     <div class="card mt-2 p-2">
+    <h5 class="section-title">Give Review to Paula</h5>
+    <p class="mt-2">⭐⭐⭐⭐⭐</p>
+    <label>Write Review</label>
+    <textarea class="form-control mb-2 review-box" rows="3" placeholder="Enter your review..."></textarea>
+    <button class="btn btn-primary">Submit Review</button>
+     </div>
+  </div>
+
+</div>
+{% endblock %}
