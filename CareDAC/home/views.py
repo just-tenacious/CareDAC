@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
 
 # Home & Main Pages
 def home_view(request):
@@ -48,11 +49,10 @@ def caregivers_view(request):
     return render(request, 'home/list.html', {'range': range(20), 'active_nav': 'home'})
 
 def caregiver_profile_view(request):
-    # Currently static; later you can pass dynamic caregiver info
     return render(request, 'home/caregiver_profile.html', {'active_nav': 'home'})
 
 def booking_history(request):
-    return render(request,'home/booking_history.html',{'active_nav':'appointment'})
+    return render(request, 'home/booking_history.html', {'active_nav': 'appointment'})
 
 def user_profile(request):
-    return render(request,'home/user_profile.html')
+    return render(request, 'home/user_profile.html')
