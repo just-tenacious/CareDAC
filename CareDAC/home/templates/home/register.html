@@ -60,6 +60,11 @@
         margin-right: 15px;
         font-weight: 500;
     }
+    .error-message {
+        color: #dc3545;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
 </style>
 
 <div class="register-container">
@@ -69,20 +74,36 @@
             <p>Welcome to CareDAC</p>
         </div>
 
-        <form method="POST" action="{% url 'registered_for' %}">
+        <!-- Messages -->
+        {% if messages %}
+            <div>
+                {% for message in messages %}
+                    <p class="error-message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'register' %}">
             {% csrf_token %}
 
-            <input type="text" class="form-control" name="fullname" placeholder="Full Name" required>
-            <input type="date" class="form-control" name="dob" placeholder="Date of Birth" required>
-            <input type="email" class="form-control" name="email" placeholder="Email" required>
-            <input type="tel" class="form-control" name="mobile" placeholder="Mobile Number" required>
+            <input type="text" class="form-control" name="fullname" placeholder="Full Name" required
+                value="{{ form_data.fullname|default:'' }}">
+            <input type="date" class="form-control" name="dob" placeholder="Date of Birth" required
+                value="{{ form_data.dob|default:'' }}">
+            <input type="email" class="form-control" name="email" placeholder="Email" required
+                value="{{ form_data.email|default:'' }}">
+            <input type="tel" class="form-control" name="mobile" placeholder="Mobile Number" required
+                value="{{ form_data.mobile|default:'' }}">
             <input type="password" class="form-control" name="password" placeholder="Password" required>
             <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required>
 
             <div class="gender-group">
-                <label><input type="radio" name="gender" value="male" required> Male</label>
-                <label><input type="radio" name="gender" value="female"> Female</label>
-                <label><input type="radio" name="gender" value="non-binary">Other</label>
+                <label><input type="radio" name="gender" value="male" required
+                    {% if form_data.gender == 'male' %}checked{% endif %}> Male</label>
+                <label><input type="radio" name="gender" value="female"
+                    {% if form_data.gender == 'female' %}checked{% endif %}> Female</label>
+                <label><input type="radio" name="gender" value="non-binary"
+                    {% if form_data.gender == 'non-binary' %}checked{% endif %}>Other</label>
             </div>
 
             <div class="d-grid mb-3">

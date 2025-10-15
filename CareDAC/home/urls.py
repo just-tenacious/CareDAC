@@ -5,7 +5,7 @@ from .views import (
     otp_view, reset_password, registered_for, register_info,
     service_needed, member_detail, patient_detail, appointment,
     payment, caregivers_view, caregiver_profile_view, booking_history,
-    user_profile
+    user_profile, verify_otp_view  
 )
 
 urlpatterns = [
@@ -15,6 +15,7 @@ urlpatterns = [
     path('login/', login_view, name='login'),
     path('forgot-password/', forgot_password, name='forgot_password'),
     path('otp/', otp_view, name='otp'),
+    path('verify-otp/', verify_otp_view, name='verify_otp'), 
     path('reset-password/', reset_password, name='reset_password'),
     path('register/', register_view, name='register'),
     path('registered-for/', registered_for, name='registered_for'),

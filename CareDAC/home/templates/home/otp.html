@@ -46,10 +46,12 @@
 <div class="otp-container">
     <div class="card otp-card">
         <h2>Enter OTP</h2>
-        <p class="text-muted">A one-time password has been sent to your email.</p>
+        <p class="text-muted">A one-time password has been sent to your email and phone number.</p>
 
-        <form method="POST" action="{% url 'reset_password' %}">
+        <form method="POST" action="{% url 'verify_otp' %}">
             {% csrf_token %}
+            <input type="hidden" name="flow_type" value="{{ flow_type }}">
+
             <div class="otp-row">
                 <input type="text" maxlength="1" class="otp-input" name="otp1" required>
                 <input type="text" maxlength="1" class="otp-input" name="otp2" required>

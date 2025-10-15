@@ -12,10 +12,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import pymysql
+
+# Use PyMySQL as MySQLdb
+pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -27,7 +30,6 @@ SECRET_KEY = 'django-insecure-^9#y+rzynx26wu0p)jcu-qt!_7rmh$2b_dll*5-+#h5@5z*2(b
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -76,10 +78,33 @@ WSGI_APPLICATION = 'CareDAC.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'caredac',
+        'USER': 'root',
+        'PASSWORD': 'qwerty123',
+        'HOST': 'localhost',  # or your DB server
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        }
     }
 }
+
+# Email verification 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'tshraddha1505@gmail.com'
+EMAIL_HOST_PASSWORD = 'ypyv bocv anjt wfpz'
+
+# Twilio credentials
+
+# settings.py
+TWILIO_ACCOUNT_SID = 'ACe37e740a8aea9fa2c4efdb9eb5b1e8c7'
+TWILIO_AUTH_TOKEN = '44657d5025196b4049b955a69fa9fabc'
+TWILIO_PHONE_NUMBER = '+16084203030'
 
 
 # Password validation
@@ -118,11 +143,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
