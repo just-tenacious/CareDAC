@@ -18,7 +18,7 @@
         <div class="text-center mb-4">
             <h2>Login to CareDAC</h2>
         </div>
-        <form method="POST" action="{% url 'home' %}"> <!-- Redirect to home on login -->
+        <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             <!-- Email -->
             <div class="mb-3 position-relative">
