@@ -4,43 +4,44 @@
 
 {% block content %}
 <style>
-  .otp-container {
-    height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .otp-card {
-    width: 400px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .otp-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.25);
-  }
-  .otp-input {
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    font-size: 1.5rem;
-    margin: 0 5px;
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-  }
-  .otp-input:focus {
-    outline: none;
-    border-color: #0d6efd;
-    box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
-  }
-  .otp-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
+.otp-container {
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.otp-card {
+  width: 400px;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+  text-align: center;
+}
+.otp-input {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 0 5px;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+}
+.otp-input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
+}
+.otp-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.resend-otp {
+  margin-top: 15px;
+}
+.alert-message {
+  margin-bottom: 15px;
+}
 </style>
 
 <div class="otp-container">
@@ -57,172 +58,63 @@
       {% endif %}
     </h2>
 
-    <p class="text-muted">
+    <p class="text-muted mb-4">
       {% if source == 'login' %}
-        You came from the <strong>Login</strong> page.
+        An OTP has been sent to your registered email. Please verify to continue logging in.
       {% elif source == 'register' %}
-        You came from the <strong>Registration</strong> page.
+        Please verify your email address using the OTP sent to you.
       {% elif source == 'forgot_password' %}
-        You came from the <strong>Forgot Password</strong> page.
+        We’ve sent a password reset OTP to your email.
       {% else %}
-        You opened this page directly.
+        Enter the OTP sent to your email.
       {% endif %}
     </p>
 
-    <form method="POST" action="">
+    <!-- Display messages -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-message">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="{% url 'otp' %}?source={{ source }}">
       {% csrf_token %}
       <div class="otp-row">
-        <input type="text" maxlength="1" class="otp-input" name="otp1" required />
+        <input type="text" maxlength="1" class="otp-input" name="otp1" required autofocus />
         <input type="text" maxlength="1" class="otp-input" name="otp2" required />
         <input type="text" maxlength="1" class="otp-input" name="otp3" required />
         <input type="text" maxlength="1" class="otp-input" name="otp4" required />
       </div>
 
       <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Verify</button>
-      </div>
-
-      <div class="mt-3">
-        <a href="{% url 'forgot_password' %}" class="text-decoration-none">
-          Resend OTP
-        </a>
+        <button type="submit" class="btn btn-primary">Verify OTP</button>
       </div>
     </form>
+
+    <div class="resend-otp">
+      <p class="mt-3">
+        Didn’t receive the OTP?
+        <a href="{% url 'resend_otp' %}?source={{ source }}" class="text-decoration-none fw-bold">Resend OTP</a>
+      </p>
+    </div>
   </div>
 </div>
 
 <script>
-  // Automatically move to next input
-  const inputs = document.querySelectorAll(".otp-input");
-  inputs.forEach((input, index) => {
-    input.addEventListener("input", () => {
-      if (input.value.length === 1 && index < inputs.length - 1) {
-        inputs[index + 1].focus();
-      }
-    });
+const inputs = document.querySelectorAll(".otp-input");
+inputs.forEach((input, index) => {
+  input.addEventListener("input", () => {
+    if (input.value.length === 1 && index < inputs.length - 1) {
+      inputs[index + 1].focus();
+    }
   });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Backspace" && input.value === "" && index > 0) {
+      inputs[index - 1].focus();
+    }
+  });
+});
 </script>
 {% endblock %}
-
-{% comment %} {% extends 'base.html' %} 
-
-{% block title %}OTP Verification | CareDAC
-
-{% endblock %} 
-
-{% block content %}
-<style>
-  .otp-container {
-    height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .otp-card {
-    width: 400px;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .otp-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.25);
-  }
-  .otp-input {
-    width: 50px;
-    height: 50px;
-    text-align: center;
-    font-size: 1.5rem;
-    margin: 0 5px;
-    border-radius: 8px;
-    border: 1px solid #ced4da;
-  }
-  .otp-input:focus {
-    outline: none;
-    border-color: #0d6efd;
-    box-shadow: 0 0 5px rgba(13, 110, 253, 0.5);
-  }
-  .otp-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-</style>
-
-<div class="otp-container">
-  <div class="card otp-card">
-    <h2>Enter OTP</h2>
-    <p class="text-muted">A one-time password has been sent to your email.</p>
-
-    <p class="text-muted">
-      {% if source == 'login' %} 
-        You came from the <strong>Login</strong> page.
-      {% elif source == 'register' %} 
-        You came from the <strong>Registration</strong> page. 
-      {% elif source == 'forgot_password' %}
-        You came from the <strong>Forgot Password</strong> page. 
-      {% else %} 
-        You opened this page directly. 
-      {% endif %}
-    </p>
-
-    <form method="POST" action="{% url 'reset_password' %}">
-      {% csrf_token %}
-      <div class="otp-row">
-        <input
-          type="text"
-          maxlength="1"
-          class="otp-input"
-          name="otp1"
-          required
-        />
-        <input
-          type="text"
-          maxlength="1"
-          class="otp-input"
-          name="otp2"
-          required
-        />
-        <input
-          type="text"
-          maxlength="1"
-          class="otp-input"
-          name="otp3"
-          required
-        />
-        <input
-          type="text"
-          maxlength="1"
-          class="otp-input"
-          name="otp4"
-          required
-        />
-      </div>
-
-      <div class="d-grid">
-        <button type="submit" class="btn btn-primary">Verify</button>
-      </div>
-
-      <div class="mt-3">
-        <a href="{% url 'forgot_password' %}" class="text-decoration-none"
-          >Resend OTP</a
-        >
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-  // Automatically move to next input
-  const inputs = document.querySelectorAll(".otp-input");
-  inputs.forEach((input, index) => {
-    input.addEventListener("input", () => {
-      if (input.value.length === 1 && index < inputs.length - 1) {
-        inputs[index + 1].focus();
-      }
-    });
-  });
-</script>
-{% endblock %} {% endcomment %}

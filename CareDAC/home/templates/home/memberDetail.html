@@ -14,7 +14,7 @@
     align-items: center;
   }
   .form-card {
-    width: 600px;
+    width: 650px;
     padding: 40px 35px;
     background-color: #f5f7fa;
     border: none;
@@ -24,21 +24,54 @@
     color: black;
     margin-bottom: 10px;
   }
+  .form-card p {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 15px;
+  }
+  hr {
+    border-top: 1px solid rgba(222, 226, 230, 0.73);
+  }
   .form-group {
     margin-bottom: 15px;
   }
+
+  /* Flex rows for side-by-side fields */
+  .row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
   .row .form-group {
     flex: 1;
-    margin-right: 10px;
+    min-width: 150px;
   }
-  .row .form-group:last-child {
-    margin-right: 0;
-  }
+
+  /* Location option */
   .location-option {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px 10px;
+    transition: background-color 0.2s;
+    margin-top: 0;
   }
   .location-option:hover {
     background-color: #e9ecef;
+  }
+  .location-option svg {
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 576px) {
+    .row {
+      flex-direction: column;
+    }
   }
 </style>
 
@@ -46,7 +79,7 @@
   <div class="card form-card">
     <div class="text-left mb-3">
       <h2>Enter Member Details</h2>
-      <p>Need to add perfect details</p>
+      <p class="text-muted">Need to add perfect details</p>
       <hr />
     </div>
 
@@ -55,25 +88,25 @@
 
       <!-- Full Name -->
       <div class="form-group">
-        <label for="full_name" class="m-2">Full Name</label>
+        <label for="full_name">Full Name</label>
         <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full name">
       </div>
 
       <!-- Date of Birth -->
       <div class="form-group">
-        <label for="dob" class="m-2">Date of Birth</label>
+        <label for="dob">Date of Birth</label>
         <input type="date" class="form-control" id="dob" name="dob" placeholder="DD/MM/YYYY">
       </div>
 
       <!-- Phone -->
       <div class="form-group">
-        <label for="phone" class="m-2">Phone Number</label>
-        <input type="text" class="form-control" id="phone" name="phone" placeholder="Phone number">
+        <label for="phone">Phone Number</label>
+        <input type="number" class="form-control" id="phone" name="phone" placeholder="Phone number" min="1000000000" max="9999999999">
       </div>
 
       <!-- Gender -->
       <div class="form-group">
-        <label class="m-2">Gender</label><br>
+        <label>Gender</label><br>
         <div class="form-check form-check-inline">
           <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
           <label class="form-check-label" for="male">Male</label>
@@ -83,73 +116,65 @@
           <label class="form-check-label" for="female">Female</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="gender" id="other" value="other">
+          <input class="form-check-input" type="radio" name="gender" id="other" value="Other">
           <label class="form-check-label" for="other">Other</label>
         </div>
       </div>
 
       <!-- Location Selection -->
-<div class="form-group">
-  <label class="m-2">Location</label><br>
-  <div class="d-flex align-items-center border rounded p-2 location-option" 
-       onclick="document.getElementById('current_location').checked = true;">
-    <input type="radio" name="address_type" id="current_location" value="Current Location" style="display:none;">
-    <span class="me-2" style="display:flex; align-items:center; justify-content:center; width:24px; height:24px;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
-        <path d="M12.166 8.94c.487 1.078.835 2.142.96 2.66.116.481-.147.993-.63 1.09-.483.096-1.02-.2-1.32-.72-.302-.52-.6-1.238-.886-1.94-.284-.698-.556-1.41-.79-2.07-.238-.67-.445-1.28-.605-1.83C9.33 7.5 10.75 8 12.166 8.94z"/>
-        <path d="M8 0C5.25 0 3 2.25 3 5c0 3.2 3.19 7.91 4.16 9.58a1 1 0 0 0 1.68 0C9.81 12.91 13 8.2 13 5c0-2.75-2.25-5-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
-      </svg>
-    </span>
-    <span>Use my current location</span>
-  </div>
-</div>
-
+      <div class="form-group mb-3">
+        <label>Location</label><br>
+        <div class="location-option" onclick="document.getElementById('current_location').checked = true; getLocation();">
+          <input type="radio" name="address_type" id="current_location" value="Current Location" style="display:none;">
+          <span class="me-2" style="display:flex; align-items:center; justify-content:center;">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-geo-alt" viewBox="0 0 16 16">
+              <path d="M12.166 8.94c.487 1.078.835 2.142.96 2.66.116.481-.147.993-.63 1.09-.483.096-1.02-.2-1.32-.72-.302-.52-.6-1.238-.886-1.94-.284-.698-.556-1.41-.79-2.07-.238-.67-.445-1.28-.605-1.83C9.33 7.5 10.75 8 12.166 8.94z"/>
+              <path d="M8 0C5.25 0 3 2.25 3 5c0 3.2 3.19 7.91 4.16 9.58a1 1 0 0 0 1.68 0C9.81 12.91 13 8.2 13 5c0-2.75-2.25-5-5-5zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/>
+            </svg>
+          </span>
+          <span>Use my current location</span>
+        </div>
+        <span class="spinner-border text-primary ms-2" id="loadingSpinner" role="status" style="display:none;"></span>
+        <span id="locationStatus" class="ms-2" style="display:none;"></span>
+      </div>
 
       <!-- Address Lines -->
       <div class="form-group">
-        <label for="address1" class="m-2">Address Line 1</label>
+        <label for="address1">Address Line 1</label>
         <input type="text" class="form-control" id="address1" name="address1" placeholder="Address line 1">
       </div>
 
       <div class="form-group">
-        <label for="address2" class="m-2">Address Line 2</label>
+        <label for="address2">Address Line 2</label>
         <input type="text" class="form-control" id="address2" name="address2" placeholder="Address line 2">
       </div>
 
       <!-- Country & State -->
-      <div class="row">
+      <div class="row mb-3">
         <div class="form-group">
-          <label for="country" class="m-2">Country</label>
+          <label for="country">Country</label>
           <select class="form-control" id="country" name="country">
             <option value="">Select Country</option>
-            <option value="India">India</option>
-            <option value="Australia">Australia</option>
-            <option value="USA">USA</option>
-            <option value="UK">UK</option>
           </select>
         </div>
-
         <div class="form-group">
-          <label for="state" class="m-2">State</label>
+          <label for="state">State</label>
           <select class="form-control" id="state" name="state">
             <option value="">Select State</option>
-            <option value="Maharashtra">Maharashtra</option>
-            <option value="Karnataka">Karnataka</option>
-            <option value="New South Wales">New South Wales</option>
-            <option value="California">California</option>
           </select>
         </div>
       </div>
 
       <!-- City & Pin -->
-      <div class="row">
+      <div class="row mb-3">
         <div class="form-group">
-          <label for="city" class="m-2">City</label>
-          <input type="text" class="form-control" id="city" name="city" placeholder="City">
+          <label for="city">City</label>
+          <select class="form-control" id="city" name="city">
+            <option value="">Select City</option>
+          </select>
         </div>
-
         <div class="form-group">
-          <label for="pincode" class="m-2">Pin Code</label>
+          <label for="pincode">Pin Code</label>
           <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pin code">
         </div>
       </div>
@@ -158,4 +183,160 @@
     </form>
   </div>
 </div>
+
+<script>
+// -------------------- LOAD ALL DATA AT ONCE --------------------
+let countriesData = [];
+
+async function loadAllData() {
+  const res = await fetch('https://countriesnow.space/api/v0.1/countries/states');
+  const data = await res.json();
+  countriesData = data.data;
+
+  const countrySelect = document.getElementById('country');
+  countrySelect.innerHTML = '<option value="">Select Country</option>';
+  countriesData.forEach(c => {
+    const option = document.createElement('option');
+    option.value = c.name;
+    option.textContent = c.name;
+    countrySelect.appendChild(option);
+  });
+}
+
+function populateStates(countryName) {
+  const stateSelect = document.getElementById('state');
+  const citySelect = document.getElementById('city');
+  stateSelect.innerHTML = '<option value="">Select State</option>';
+  citySelect.innerHTML = '<option value="">Select City</option>';
+
+  const country = countriesData.find(c => c.name === countryName);
+  if (!country) return;
+
+  country.states.forEach(s => {
+    const option = document.createElement('option');
+    option.value = s.name;
+    option.textContent = s.name;
+    stateSelect.appendChild(option);
+  });
+}
+
+async function populateCities(countryName, stateName) {
+  const citySelect = document.getElementById('city');
+  citySelect.innerHTML = '<option value="">Loading...</option>';
+
+  const res = await fetch('https://countriesnow.space/api/v0.1/countries/state/cities', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ country: countryName, state: stateName })
+  });
+  const data = await res.json();
+
+  citySelect.innerHTML = '<option value="">Select City</option>';
+  data.data.forEach(c => {
+    const option = document.createElement('option');
+    option.value = c;
+    option.textContent = c;
+    citySelect.appendChild(option);
+  });
+}
+
+// Event listeners
+document.getElementById('country').addEventListener('change', e => populateStates(e.target.value));
+document.getElementById('state').addEventListener('change', e => populateCities(document.getElementById('country').value, e.target.value));
+
+// Load data on page load
+document.addEventListener('DOMContentLoaded', loadAllData);
+
+// -------------------- GEOLOCATION --------------------
+async function getLocation() {
+  const spinner = document.getElementById('loadingSpinner');
+  const status = document.getElementById('locationStatus');
+  spinner.style.display = 'inline-block';
+  status.style.display = 'inline';
+  status.textContent = 'Fetching location...';
+
+  if (!navigator.geolocation) {
+    alert("Geolocation is not supported by your browser.");
+    spinner.style.display = 'none';
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(async (pos) => {
+    const { latitude, longitude } = pos.coords;
+
+    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&addressdetails=1&lat=${latitude}&lon=${longitude}`);
+    const data = await response.json();
+
+    spinner.style.display = 'none';
+    status.textContent = 'Location detected successfully ✅';
+
+    const address = data.address || {};
+
+    // Address Line 1
+    const addr1Parts = [];
+    if (address.house_number) addr1Parts.push(address.house_number);
+    if (address.road) addr1Parts.push(address.road);
+    if (address.suburb) addr1Parts.push(address.suburb);
+    if (address.neighbourhood) addr1Parts.push(address.neighbourhood);
+    document.getElementById('address1').value = addr1Parts.join(', ');
+
+    // Address Line 2
+    const addr2Parts = [];
+    if (address.city) addr2Parts.push(address.city);
+    else if (address.town) addr2Parts.push(address.town);
+    else if (address.village) addr2Parts.push(address.village);
+    if (address.county) addr2Parts.push(address.county);
+    if (address.state_district) addr2Parts.push(address.state_district);
+    document.getElementById('address2').value = addr2Parts.join(', ');
+
+    // Pin code
+    document.getElementById('pincode').value = address.postcode || '';
+
+    // Country → State → City matching
+    const countryName = address.country;
+    const stateName = address.state;
+    const cityName = address.city || address.town || address.village;
+
+    function matchOption(selectElem, text) {
+      if (!text) return null;
+      text = text.toLowerCase();
+      for (let opt of selectElem.options) {
+        if (opt.text.toLowerCase() === text) return opt;
+      }
+      for (let opt of selectElem.options) {
+        if (opt.text.toLowerCase().includes(text)) return opt;
+      }
+      return null;
+    }
+
+    const countrySelect = document.getElementById('country');
+    const countryOption = matchOption(countrySelect, countryName);
+    if (countryOption) {
+      countryOption.selected = true;
+      populateStates(countryOption.value);
+
+      setTimeout(() => {
+        const stateSelect = document.getElementById('state');
+        const stateOption = matchOption(stateSelect, stateName);
+        if (stateOption) {
+          stateOption.selected = true;
+          populateCities(countryOption.value, stateOption.value);
+
+          setTimeout(() => {
+            const citySelect = document.getElementById('city');
+            const cityOption = matchOption(citySelect, cityName);
+            if (cityOption) cityOption.selected = true;
+          }, 500);
+        }
+      }, 500);
+    }
+
+  }, (err) => {
+    spinner.style.display = 'none';
+    status.textContent = 'Unable to fetch location ❌';
+    alert("Unable to fetch location. Please fill manually.");
+    console.error(err);
+  });
+}
+</script>
 {% endblock %}

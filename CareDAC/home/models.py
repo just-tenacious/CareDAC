@@ -1,6 +1,12 @@
 from django.db import models
+from datetime import datetime, timedelta
+import random
 
-# Table 1
+# ============================================================
+# 🧑‍💼 USER-RELATED MODELS
+# ============================================================
+
+# ------------------ Table 1 ------------------
 class UserMaster(models.Model):
     uid = models.AutoField(primary_key=True)
     full_name = models.CharField(max_length=255)
@@ -19,7 +25,11 @@ class UserMaster(models.Model):
     def __str__(self):
         return self.full_name
 
-# Table 2
+    class Meta:
+        db_table = 'user_master'
+
+
+# ------------------ Table 2 ------------------
 class UserMemberDetail(models.Model):
     member_id = models.AutoField(primary_key=True)
     full_name = models.CharField(max_length=255)
@@ -37,7 +47,11 @@ class UserMemberDetail(models.Model):
     relation = models.CharField(max_length=50)
     uid = models.ForeignKey(UserMaster, on_delete=models.CASCADE)
 
-# Table 3
+    class Meta:
+        db_table = 'user_member_detail'
+
+
+# ------------------ Table 3 ------------------
 class UserDetail(models.Model):
     user_id = models.AutoField(primary_key=True)
     emergency_contact = models.CharField(max_length=255)
@@ -46,7 +60,11 @@ class UserDetail(models.Model):
     user_services = models.TextField()
     uid = models.ForeignKey(UserMaster, on_delete=models.CASCADE)
 
-# Table 4
+    class Meta:
+        db_table = 'user_detail'
+
+
+# ------------------ Table 4 ------------------
 class UserPaymentDetail(models.Model):
     payment_id = models.AutoField(primary_key=True)
     card_name = models.CharField(max_length=255)
@@ -55,7 +73,15 @@ class UserPaymentDetail(models.Model):
     cvv = models.CharField(max_length=5)
     uid = models.ForeignKey(UserMaster, on_delete=models.CASCADE)
 
-# Table 5
+    class Meta:
+        db_table = 'user_payment_detail'
+
+
+# ============================================================
+# 🧾 SERVICE-RELATED MODELS
+# ============================================================
+
+# ------------------ Table 5 ------------------
 class ServicesNeeded(models.Model):
     service_id = models.AutoField(primary_key=True)
     uid = models.ForeignKey(UserMaster, on_delete=models.CASCADE)
@@ -63,7 +89,15 @@ class ServicesNeeded(models.Model):
     help = models.TextField()
     services = models.TextField()
 
-# Table 6
+    class Meta:
+        db_table = 'services_needed'
+
+
+# ============================================================
+# 👩‍⚕️ CAREGIVER-RELATED MODELS
+# ============================================================
+
+# ------------------ Table 6 ------------------
 class CaregiverMaster(models.Model):
     caregiver_id = models.AutoField(primary_key=True)
     full_name = models.CharField(max_length=255)
@@ -78,17 +112,68 @@ class CaregiverMaster(models.Model):
     background = models.TextField()
     check_status = models.BooleanField(default=False)
 
-# Table 7
+    class Meta:
+        db_table = 'caregiver_master'
+
+
+# ------------------ Table 7 ------------------
 class CaregiverDetail(models.Model):
     cid = models.AutoField(primary_key=True)
     highlights = models.TextField()
     functionality = models.TextField()
     caregiver_id = models.ForeignKey(CaregiverMaster, on_delete=models.CASCADE)
 
-# Table 8
+    class Meta:
+        db_table = 'caregiver_detail'
+
+
+# ------------------ Table 8 ------------------
 class CaregiverReview(models.Model):
     review_id = models.AutoField(primary_key=True)
     reviewer_name = models.CharField(max_length=255)
     comment = models.TextField()
     rating = models.IntegerField()
     cid = models.ForeignKey(CaregiverDetail, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = 'caregiver_review'
+
+
+# ============================================================
+# 🔐 OTP VERIFICATION SYSTEM
+# ============================================================
+
+class OTPVerification(models.Model):
+    email = models.EmailField()
+    otp = models.CharField(max_length=6)
+    purpose = models.CharField(max_length=20, choices=[
+        ('register', 'Register'),
+        ('login', 'Login'),
+        ('forgot_password', 'Forgot Password'),
+    ])
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    is_verified = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'otp_verification'
+
+    def __str__(self):
+        return f"{self.email} - {self.purpose} - {self.otp}"
+
+    @staticmethod
+    def generate_otp():
+        """Generate a random 4-digit OTP"""
+        return str(random.randint(1000, 9999))
+
+    @classmethod
+    def create_otp(cls, email, purpose):
+        """Create and save OTP"""
+        otp = cls.generate_otp()
+        expires_at = datetime.now() + timedelta(minutes=5)
+        return cls.objects.create(
+            email=email,
+            otp=otp,
+            purpose=purpose,
+            expires_at=expires_at
+        )

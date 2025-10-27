@@ -18,6 +18,16 @@
         <div class="text-center mb-4">
             <h2>Login to CareDAC</h2>
         </div>
+
+        <!-- Display messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <form method="POST" action="{% url 'login' %}">
             {% csrf_token %}
             <!-- Email -->
