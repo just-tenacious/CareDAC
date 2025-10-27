@@ -1,0 +1,19 @@
+# # Created by venv; see https://docs.python.org/3/library/venv.html
+# *
+# .env
+
+
+# Python
+*.pyc
+__pycache__/
+
+# Virtual environment
+.venv/
+env/
+
+# Env file with secrets
+.env
+
+# Django stuff
+db.sqlite3
+/staticfiles/
