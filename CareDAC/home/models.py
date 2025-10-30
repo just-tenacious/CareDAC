@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta , date
 import random
 
 # ============================================================
@@ -111,9 +111,24 @@ class CaregiverMaster(models.Model):
     time_sitter = models.CharField(max_length=255)
     background = models.TextField()
     check_status = models.BooleanField(default=False)
+    profile_photo = models.ImageField(upload_to='caregiver_photos/', blank=True, null=True)
 
     class Meta:
         db_table = 'caregiver_master'
+    
+    @property
+    def age(self):
+        today = date.today()
+        return (
+            today.year
+            - self.dob.year
+            - ((today.month, today.day) < (self.dob.month, self.dob.day))
+        )
+
+    @property
+    def years_of_experience(self):
+        current_year = date.today().year
+        return current_year - self.year_of_joining
 
 
 # ------------------ Table 7 ------------------
@@ -121,7 +136,7 @@ class CaregiverDetail(models.Model):
     cid = models.AutoField(primary_key=True)
     highlights = models.TextField()
     functionality = models.TextField()
-    caregiver_id = models.ForeignKey(CaregiverMaster, on_delete=models.CASCADE)
+    caregiver_id = models.ForeignKey(CaregiverMaster, on_delete=models.CASCADE,db_column='caregiver_id',null=True, blank=True)
 
     class Meta:
         db_table = 'caregiver_detail'
@@ -133,7 +148,7 @@ class CaregiverReview(models.Model):
     reviewer_name = models.CharField(max_length=255)
     comment = models.TextField()
     rating = models.IntegerField()
-    cid = models.ForeignKey(CaregiverDetail, on_delete=models.CASCADE)
+    caregiver_id = models.ForeignKey(CaregiverMaster, on_delete=models.CASCADE,db_column='caregiver_id',null=True, blank=True)
 
     class Meta:
         db_table = 'caregiver_review'

@@ -1,28 +1,131 @@
 {% load static %}
+
 <h5 class="fw-bold mb-3">Caregivers</h5>
 <hr />
 
 <div class="list-group">
-  {% for i in "1234567891011121314151617181920"|make_list %}
-    <a href="{% url 'caregiver_profile' %}" class="text-decoration-none text-dark">
-      <div class="card caregiver-card mb-3 shadow-sm p-3 rounded-4 hover-shadow" style="cursor:pointer;">
+  {% if caregivers %}
+    {% for caregiver in caregivers %}
+          
+      <div class="card caregiver-card mb-3 shadow-sm p-3 rounded-4 hover-shadow">
         <div class="d-flex align-items-center justify-content-between">
           <!-- LEFT PART -->
           <div class="d-flex align-items-center gap-3">
             <img
-              src="{% static 'home/images/user.jpg' %}"
-              alt="Caregiver"
+              src="{% if caregiver.profile_photo %}{{ caregiver.profile_photo.url }}{% else %}{% static 'home/images/user.jpg' %}{% endif %}"
+              alt="{{ caregiver.full_name }}"
               height="100"
               width="120"
               class="img rounded border border-2 border-warning"
             />
             <div>
-              <h6 class="fw-semibold mb-1 text-dark">Paulo Mora</h6>
+              <h6 class="fw-semibold mb-1 text-dark">{{ caregiver.full_name }}</h6>
               <p class="text-muted mb-1 small">
-                <i class="bi bi-geo-alt-fill text-danger"></i> Mumbai, India
+                <i class="bi bi-geo-alt-fill text-danger"></i> City, Country
+              </p>
+
+              <!-- ✅ STAR RATING SECTION -->
+              {% comment %} <p class="mb-0 text-warning fs-6">
+                {% for i in "12345"|make_list %}
+                  {% if forloop.counter <= caregiver.average_rating|add:0 %}
+                    ⭐
+                  {% else %}
+                    ☆
+                  {% endif %}
+                {% endfor %}
+                <span class="text-dark small">({{ caregiver.average_rating|floatformat:1 }})</span>
+              </p> {% endcomment %}
+
+              {% with full_stars=caregiver.average_rating|floatformat:1|floatformat:0 %}
+                <p class="mb-0 text-warning fs-6">
+                  {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= full_stars %}
+                      ⭐
+                    {% else %}
+                      ☆
+                    {% endif %}
+                  {% endfor %}
+                  <span class="text-dark small">({{ caregiver.average_rating|floatformat:1 }})</span>
+                </p>
+                {% endwith %}
+                
+
+
+            </div>
+          </div>
+
+          <!-- RIGHT PART -->
+          <div class="text-end">
+            <p class="fw-semibold text-dark mb-1">
+              ${{ caregiver.start_hourly_rate }}–${{ caregiver.end_hourly_rate }}/hr
+              <span class="text-muted small">• {{ caregiver.years_of_experience }} yrs exp</span>
+            </p>
+            <button
+              class="btn btn-sm btn-primary fw-semibold text-white rounded-pill px-3 py-1 shadow-sm"
+              onclick="window.location.href='{% url 'caregiver_profile' caregiver.caregiver_id %}'"
+            >
+              Book {{ caregiver.full_name }}
+            </button>
+            {% if caregiver.check_status %}
+              <p class="mt-2 mb-0 text-success small">
+                <span class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 4px">
+                  verified_user
+                </span>
+                {{ caregiver.background }}
+              </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Bottom Row -->
+        <div class="mt-2 border-top pt-2">
+          <p class="mb-0 text-muted small">
+            Full-time available caregiver
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No caregivers found.</p>
+  {% endif %}
+</div>
+
+
+{% comment %} {% load static %}
+
+<h5 class="fw-bold mb-3">Caregivers</h5>
+<hr />
+
+<div class="list-group">
+  {% if caregivers %}
+    {% for caregiver in caregivers %}      
+      <div class="card caregiver-card mb-3 shadow-sm p-3 rounded-4 hover-shadow">
+        <div class="d-flex align-items-center justify-content-between">
+          <!-- LEFT PART -->
+          <div class="d-flex align-items-center gap-3">
+            <img
+              src="{% if caregiver.profile_photo %}{{ caregiver.profile_photo.url }}{% else %}{% static 'home/images/user.jpg' %}{% endif %}"
+              alt="{{ caregiver.full_name }}"
+              height="100"
+              width="120"
+              class="img rounded border border-2 border-warning"
+            />
+            <div>
+              <h6 class="fw-semibold mb-1 text-dark">{{ caregiver.full_name }}</h6>
+              <p class="text-muted mb-1 small">
+                <i class="bi bi-geo-alt-fill text-danger"></i> City, Country
               </p>
               <p class="mb-0 text-warning fs-6">
-                ⭐⭐⭐⭐⭐ <span class="text-dark small">(5.0)</span>
+                <p class="mb-0 text-warning fs-6">
+                  {% for i in "12345"|make_list %}
+                    {% if forloop.counter <= caregiver.average_rating|add:0 %}
+                      ⭐
+                    {% else %}
+                      ☆
+                    {% endif %}
+                  {% endfor %}
+                  <span class="text-dark small">({{ caregiver.average_rating|floatformat:1 }})</span>
+                </p>
               </p>
             </div>
           </div>
@@ -30,27 +133,35 @@
           <!-- RIGHT PART -->
           <div class="text-end">
             <p class="fw-semibold text-dark mb-1">
-              $30–40/hr <span class="text-muted small">• 5 yrs exp</span>
+              ${{ caregiver.start_hourly_rate }}–${{ caregiver.end_hourly_rate }}/hr
+              <span class="text-muted small">• {{ caregiver.years_of_experience }} yrs exp</span>
             </p>
             <button
               class="btn btn-sm btn-primary fw-semibold text-white rounded-pill px-3 py-1 shadow-sm"
+              onclick="window.location.href='{% url 'caregiver_profile' caregiver.caregiver_id %}'"
             >
-              Book
+              Book {{ caregiver.full_name }}
             </button>
-            <p class="mt-2 mb-0 text-success small">
-              <span class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 4px">
-                verified_user
-              </span>
-              Background check done
-            </p>
+            {% if caregiver.check_status %}
+              <p class="mt-2 mb-0 text-success small">
+                <span class="material-icons" style="font-size: 16px; vertical-align: middle; margin-right: 4px">
+                  verified_user
+                </span>
+                {{ caregiver.background }}
+              </p>
+            {% endif %}
           </div>
         </div>
 
         <!-- Bottom Row -->
         <div class="mt-2 border-top pt-2">
-          <p class="mb-0 text-muted small">Full-time available caregiver</p>
+          <p class="mb-0 text-muted small">
+            Full-time available caregiver
+          </p>
         </div>
       </div>
-    </a>
-  {% endfor %}
-</div>
+    {% endfor %}
+  {% else %}
+    <p>No caregivers found.</p>
+  {% endif %}
+</div> {% endcomment %}

@@ -1,14 +1,14 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} 
 
-{% block title %}Caregiver Profile | CareDAC{% endblock %}
+{% load static %} 
+
+{% block title %} {{ caregiver.full_name }} Profile | CareDAC {% endblock %} 
 
 {% block extra_css %}
 <style>
   body {
     background: none;
   }
-
   .profile-container {
     display: flex;
     flex-direction: column;
@@ -17,7 +17,6 @@
     max-width: 900px;
     margin: 0 auto;
   }
-
   .profile-header {
     display: flex;
     justify-content: space-between;
@@ -27,284 +26,313 @@
     padding: 15px;
     border-radius: 10px;
     background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
-
   .profile-header .info {
     display: flex;
     flex-direction: column;
     gap: 5px;
   }
-
   .profile-header img {
     width: 120px;
     height: 120px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
-
   .verified-text {
     font-size: 14px;
     color: green;
+    display: flex;
+    align-items: center;
+    gap: 4px;
   }
-
-  .verified-text .material-icons {
-    font-size: 16px;
-    vertical-align: middle;
-    margin-right: 4px;
-  }
-
   .section-card {
     padding: 15px;
     border-radius: 10px;
     background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
-
-  .section-card h5, .section-card h6 {
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-
   .info-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
-
   .review-card {
     border-top: 1px solid #e0e0e0;
     padding-top: 10px;
     margin-top: 10px;
     background-color: #fafafa;
   }
-
   .icon-small {
     font-size: 18px;
     vertical-align: middle;
   }
-
-  .btn-check:checked + .btn {
-    background-color: #0d6efd;
-    color: #fff;
-    border-color: #0d6efd;
-  }
-
   .btn-time {
     min-width: 100px;
     text-align: center;
     flex: 1;
   }
-
-  .patient-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .star {
+    display: inline-block;
+    font-size: 22px;
+    position: relative;
   }
-
-  .patient-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    background-color: #fff;
+  .star.full::before {
+    content: "★";
+    color: gold;
   }
-
-  .patient-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+  .star.half::before {
+    content: "★";
+    background: linear-gradient(90deg, gold 50%, #dcdcdc 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
-
-  .patient-initial {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #0d6efd;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 600;
-    font-size: 16px;
+  .star.empty::before {
+    content: "★";
+    color: #dcdcdc;
   }
-
-  .patient-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .patient-name {
-    font-weight: 600;
-    font-size: 16px;
-  }
-
-  .patient-age {
-    font-size: 14px;
-    color: #6c757d;
-  }
-
-  .patient-gender {
-    font-size: 20px;
-  }
-
-  .modal-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-  }
-
-  .highlights-list li {
-    margin-bottom: 6px;
-  }
-
   @media (max-width: 576px) {
     .btn-time {
       min-width: 80px;
       font-size: 14px;
     }
   }
-
   @media (max-width: 768px) {
     .profile-header {
       flex-direction: column;
       align-items: flex-start;
     }
-    .info-row {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-    }
   }
 </style>
-{% endblock %}
+
+{% endblock %} 
 
 {% block navbar %}
+
 {% include 'navbar.html' %}
-{% endblock %}
+
+{% endblock %} 
 
 {% block content %}
 <div class="profile-container">
-
-  <!-- Header Section -->
+  <!-- Header -->
   <div class="profile-header">
     <div class="d-flex align-items-center gap-3">
-      <img src="{% static 'home/images/user.jpg' %}" alt="Paula Mora" />
+      <img
+        src="{% if caregiver.profile_photo %}{{ caregiver.profile_photo.url }}{% else %}{% static 'home/images/user.jpg' %}{% endif %}"
+        alt="{{ caregiver.full_name }}"
+      />
       <div class="info">
-        <span class="badge bg-primary">PART-TIME</span>
-        <h3 class="mb-0">Paula Mora</h3>
-        <p class="mb-1">
-          <span class="verified-text">
-            <span class="material-icons">verified_user</span> Background check done
-          </span>
+        <span class="badge bg-primary"
+          >{{ caregiver.status|default:"PART-TIME" }}</span
+        >
+        <h3 class="mb-0">{{ caregiver.full_name }}</h3>
+        <p class="verified-text">
+          <span class="material-icons">verified_user</span> {{caregiver.background|default:"Background check done" }}
         </p>
-        <p class="mb-0 text-warning">⭐⭐⭐⭐⭐ (5)</p>
+        {% if average_rating %}
+        <div>
+          {% for i in "12345" %} {% if i|add:"0" <= average_rating %}
+          <span class="star full"></span>
+          {% elif average_rating > i|add:"-1" and average_rating < i|add:"0" %}
+          <span class="star half"></span>
+          {% else %}
+          <span class="star empty"></span>
+          {% endif %} {% endfor %}
+          <span class="ms-1 text-muted fw-semibold"
+            >({{ average_rating|floatformat:1 }})</span
+          >
+        </div>
+        {% else %}
+        <p class="text-muted mb-0">No ratings yet</p>
+        {% endif %}
       </div>
     </div>
-
     <div>
-      <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookPaulaModal">
-        Book Paula
+      <button
+        class="btn btn-primary btn-lg"
+        data-bs-toggle="modal"
+        data-bs-target="#bookCaregiverModal"
+      >
+        Book {{ caregiver.full_name }}
       </button>
     </div>
   </div>
 
-  <!-- About & Info Section -->
+  <!-- About -->
   <div class="section-card">
-    <h5>About Paula</h5>
+    <h5>About {{ caregiver.full_name }}</h5>
     <div class="info-row">
       <div>
-        Hourly rate: <strong>$30-40</strong> | Years exp.: <strong>5</strong>
+        Hourly rate:
+        <strong
+          >${{ caregiver.start_hourly_rate }}–{{ caregiver.end_hourly_rate }}</strong>
+        | Years exp.: <strong>{{ caregiver.years_of_experience }}</strong>
       </div>
       <div>
-        <strong>33yrs</strong> | <strong>Female</strong> | <strong>Speaking English</strong>
+        <strong>{{ caregiver.age }} yrs</strong> |
+        <strong>{{ caregiver.gender }}</strong> |
+        <strong>Speaks {{ caregiver.language }}</strong>
       </div>
     </div>
-    <p>
-      I am a 22-year-old graduate student pursuing my Master's in Social Work. I have 5 years of experience caring for children from newborn - 7 years. I am an animal lover, so pets are no problem! I have my own vehicle and am willing to drive children if necessary. I am more than happy to help with housework while watching your children! I am a non-smoker and have received my COVID-19 vaccine!
-    </p>
+    <p>{{ caregiver.desc }}</p>
   </div>
 
-  <!-- Availability Section -->
+  <!-- Connect -->
   <div class="section-card">
-    <h5>Connect Paula</h5>
+    <h5>Connect {{ caregiver.full_name }}</h5>
     <p class="text-secondary mb-2">
-      <span class="material-icons" style="font-size:18px; vertical-align:middle;">calendar_today</span>
-      Availability Dates: <strong>Jan 24th to 9th Feb</strong> &nbsp;&nbsp;
-      <span class="material-icons" style="font-size:18px; vertical-align:middle;">schedule</span>
-      Time: <strong>9:00 AM to 5:00 PM</strong>
+      <span
+        class="material-icons"
+        style="font-size: 18px; vertical-align: middle"
+        >calendar_today</span
+      >
+      Availability Dates:
+      <strong
+        >{{ caregiver.availability_dates|default:"Jan 24th – Feb 9th" }}</strong
+      >
+      &nbsp;&nbsp;
+      <span
+        class="material-icons"
+        style="font-size: 18px; vertical-align: middle"
+        >schedule</span
+      >
+      Time:
+      <strong
+        >{{ caregiver.availability_time|default:"9:00 AM – 5:00 PM" }}</strong
+      >
     </p>
     <p>
-      Send Paula Message
-      <a href="#" style="color: orange; text-decoration: none;">here</a>
+      Send {{ caregiver.full_name }} a message
+      <a
+        href="#"
+        data-bs-toggle="modal"
+        data-bs-target="#sendMessageModal"
+        class="text-warning text-decoration-none"
+        >here</a
+      >
     </p>
   </div>
 
-  <!-- Reviews Section -->
+  <!-- Reviews -->
   <div class="section-card">
     <h5>Reviews</h5>
-    <p><strong>5.0 ⭐⭐⭐⭐⭐ (5)</strong></p>
+    {% if reviews %} {% for review in reviews %}
     <div class="review-card p-2">
-      <p class="mb-1">Reviewed By <strong>Kim A.</strong></p>
-      <p class="mb-0">Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper.</p>
+      <p class="mb-1">
+        Reviewed by <strong>{{ review.reviewer_name }}</strong>
+      </p>
+      <div>
+        {% for i in "12345" %} {% if i|add:"0" <= review.rating %}
+        <span class="star full"></span>
+        {% elif review.rating > i|add:"-1" and review.rating < i|add:"0" %}
+        <span class="star half"></span>
+        {% else %}
+        <span class="star empty"></span>
+        {% endif %} {% endfor %}
+        <span class="text-muted ms-1">({{ review.rating|floatformat:1 }})</span>
+      </div>
+      <p class="mb-0">{{ review.comment }}</p>
     </div>
-    <div class="review-card p-2">
-      <p class="mb-1">Reviewed By <strong>Kim A.</strong></p>
-      <p class="mb-0">Donec dictum tristique porta. Etiam convallis lorem lobortis nulla molestie, nec tincidunt ex ullamcorper.</p>
-    </div>
-    <div class="review-card p-2">
-      <p class="mb-1">Reviewed By <strong>Kim A.</strong></p>
-      <p class="mb-0">Vanessa is THE only person outside of family that I have trusted with my children. She is truly amazing! She is attentive, keeps my rowdy children accountable, and has great communication. Also, it was an added perk that she loves our dog!</p>
-    </div>
+    {% endfor %} {% else %}
+    <p class="text-muted">No reviews yet.</p>
+    {% endif %}
   </div>
 
-  <!-- Highlights Section -->
+  <!-- Highlights & Can Help With -->
   <div class="section-card d-flex gap-3 flex-column flex-md-row">
-    <!-- Highlights Card -->
     <div class="card p-3 flex-fill">
       <h6>Highlights</h6>
       <ul class="list-unstyled mb-0">
-        <li><span class="material-icons text-success me-2 icon-small">task_alt</span>Comfortable with pets</li>
-        <li><span class="material-icons text-success me-2 icon-small">task_alt</span>Non-smoker</li>
-        <li><span class="material-icons text-success me-2 icon-small">task_alt</span>Alzheimer's/Dementia experience</li>
-        <li><span class="material-icons text-success me-2 icon-small">task_alt</span>Hospice experience</li>
+        {% for item in highlights %}
+        <li>
+          <span class="material-icons text-success me-2 icon-small"
+            >task_alt</span
+          >{{ item }}
+        </li>
+        {% empty %}
+        <li class="text-muted">No highlights available.</li>
+        {% endfor %}
       </ul>
     </div>
-
-    <!-- Can Also With Card -->
     <div class="card p-3 flex-fill">
-      <h6>Can also with</h6>
+      <h6>Can also help with</h6>
       <ul class="text-muted mb-0">
-        <li>Bathing</li>
-        <li>Live-in home care</li>
-        <li>Personal care</li>
-        <li>Covid safety</li>
+        {% for item in functionality %}
+        <li>{{ item }}</li>
+        {% empty %}
+        <li class="text-muted">No services listed.</li>
+        {% endfor %}
       </ul>
     </div>
   </div>
+</div>
 
+<!-- Send Message Modal -->
+<div class="modal fade" id="sendMessageModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3">
+      <div class="modal-header">
+        <h5 class="modal-title">Send Message to {{ caregiver.full_name }}</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form id="sendMessageForm">
+          <div class="mb-3">
+            <label for="messageText" class="form-label">Message</label>
+            <textarea
+              class="form-control"
+              id="messageText"
+              name="message"
+              rows="4"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Booking Modal -->
-<div class="modal fade" id="bookPaulaModal" tabindex="-1" aria-hidden="true">
+<div
+  class="modal fade"
+  id="bookCaregiverModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-dialog-centered modal-lg">
     <div class="modal-content p-3">
-
-      <!-- Modal Body -->
       <div>
-
-        <!-- Caregiver Info -->
         <div class="d-flex align-items-center gap-3 p-3 border rounded mb-3">
-          <img src="{% static 'home/images/user.jpg' %}" alt="Paula Mora"
-               class="rounded-circle" style="width:60px; height:60px; object-fit:cover;">
+          <img
+            src="{% if caregiver.profile_photo %}{{ caregiver.profile_photo.url }}{% else %}{% static 'home/images/user.jpg' %}{% endif %}"
+            alt="{{ caregiver.full_name }}"
+            class="rounded-circle"
+            style="width: 60px; height: 60px; object-fit: cover"
+          />
           <div class="d-flex flex-column justify-content-center">
-            <h6 class="mb-1">Paula Mora</h6>
-            <p class="mb-1">⭐⭐⭐⭐⭐ (5)</p>
+            <h6 class="mb-1">{{ caregiver.full_name }}</h6>
+            {% if average_rating %}
+            <p class="mb-1">
+              {% for i in "12345" %} {% if i|add:"0" <= average_rating %}
+              <span class="star full"></span>
+              {% elif average_rating > i|add:"-1" and average_rating < i|add:"0" %}
+              <span class="star half"></span>
+              {% else %}
+              <span class="star empty"></span>
+              {% endif %} {% endfor %} ({{ average_rating|floatformat:1 }})
+            </p>
+            {% endif %}
             <small class="text-success verified-text">
               <span class="material-icons verified-icon">verified_user</span>
               Background check done
@@ -312,72 +340,81 @@
           </div>
         </div>
 
-        <p class="card mt-2 p-2 text-warning">$59/hr</p>
+        <p class="card mt-2 p-2 text-warning">
+          ${{ caregiver.start_hourly_rate }}/hr
+        </p>
 
         <div class="card p-3 mb-3">
-
-          <!-- Booking Date -->
           <div class="mb-3">
             <label for="bookingDate" class="form-label">Booking Date</label>
-            <input type="text" class="form-control" id="bookingDate" placeholder="Select Date" onfocus="(this.type='date')" onblur="(this.type='text')">
+            <input
+              type="text"
+              class="form-control"
+              id="bookingDate"
+              placeholder="Select Date"
+              onfocus="(this.type='date')"
+              onblur="(this.type='text')"
+            />
           </div>
-
-          <!-- Booking Time -->
           <div class="mb-3">
             <label class="form-label d-block mb-2">Booking Time</label>
             <div class="d-flex gap-2 flex-wrap">
-              <input type="radio" class="btn-check" name="bookingTime" id="time1" autocomplete="off">
-              <label class="btn btn-outline-primary rounded-pill btn-time" for="time1">1:55 PM</label>
-
-              <input type="radio" class="btn-check" name="bookingTime" id="time2" autocomplete="off">
-              <label class="btn btn-outline-primary rounded-pill btn-time" for="time2">2:55 PM</label>
-
-              <input type="radio" class="btn-check" name="bookingTime" id="time3" autocomplete="off">
-              <label class="btn btn-outline-primary rounded-pill btn-time" for="time3">3:30 PM</label>
-
-              <input type="radio" class="btn-check" name="bookingTime" id="time4" autocomplete="off">
-              <label class="btn btn-outline-primary rounded-pill btn-time" for="time4">4:55 PM</label>
+              {% for time in caregiver.available_times %}
+              <input
+                type="radio"
+                class="btn-check"
+                name="bookingTime"
+                id="time{{ forloop.counter }}"
+                autocomplete="off"
+              />
+              <label
+                class="btn btn-outline-primary rounded-pill btn-time"
+                for="time{{ forloop.counter }}"
+                >{{ time }}</label
+              >
+              {% endfor %}
             </div>
           </div>
-
         </div>
 
-        <!-- Existing Patients -->
-        <div class="patient-list mb-3">
-          <div class="patient-card">
-            <div class="patient-left">
-              <div class="patient-initial">OR</div>
-              <div class="patient-info">
-                <div class="patient-name">Olivia Rhye</div>
-                <div class="patient-age">21yrs</div>
-              </div>
-            </div>
-            <div class="patient-gender">♀ Female</div>
-          </div>
-
-          <div class="patient-card">
-            <div class="patient-left">
-              <div class="patient-initial">LM</div>
-              <div class="patient-info">
-                <div class="patient-name">Liam Moore</div>
-                <div class="patient-age">18yrs</div>
-              </div>
-            </div>
-            <div class="patient-gender">♂ Male</div>
-          </div>
-
-          <a href="#" class="text-primary mt-2 d-inline-block text-center text-decoration-none">Add New Patient</a>
-        </div>
-
-        <!-- Cancel & Book Buttons -->
-        <div class="modal-buttons">
-          <button type="button" class="btn btn-secondary w-50" data-bs-dismiss="modal">Cancel</button>
+        <div class="modal-buttons d-flex gap-2">
+          <button
+            type="button"
+            class="btn btn-secondary w-50"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
           <button type="button" class="btn btn-primary w-50">Book</button>
         </div>
-
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  document
+    .getElementById("sendMessageForm")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      const message = document.getElementById("messageText").value.trim();
+      if (message) {
+        console.log("Message to {{ caregiver.full_name }}:", message);
+        const alertDiv = document.createElement("div");
+        alertDiv.className = "alert alert-success mt-3";
+        alertDiv.textContent = "Message logged to console.";
+        this.closest(".modal-body").appendChild(alertDiv);
+        this.reset();
+        setTimeout(() => {
+          const modal = bootstrap.Modal.getInstance(
+            document.getElementById("sendMessageModal")
+          );
+          modal.hide();
+          alertDiv.remove();
+        }, 2000);
+      }
+    });
+</script>
+
 
 {% endblock %}
